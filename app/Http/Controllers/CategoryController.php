@@ -2,82 +2,88 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+use App\Models\Category;
+use App\Http\Requests\CategoryRequest;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+
+use Illuminate\Routing\Controllers\HasMiddleware;
+
+
+class CategoryController extends Controller implements HasMiddleware
 {
-    //display all Categories
+	public static function middleware(): array
+	{
+		return ['auth'];
+	}
+	
 	public function list(): View
 	{
 		$items = Category::orderBy('name', 'asc')->get();
 		
-		return view(
-			'category.list',
+		return view('category.list',
 			[
-				'title' => 'Categories',
+				'title' => 'Kategorijas',
 				'items' => $items,
-			]
-		);
+			]);
 	}
 	//display new Category form
 	public function create(): View
 	{
-			return view(
-				'category.form',
-				[
-					'title' => 'Pievienot kategoriju',
-					'category' => new Category()
-				]
-			);
+		return view('category.form',
+			[
+				'title' => 'Pievienot kategoriju',
+				'category' => new Category(),
+			]);
 	}
-	//create new Category
-	public function put(Request $request): RedirectResponse
+	
+	private function saveCategoryData(Category $category, CategoryRequest $request): void
 	{
-		$validatedData = $request->validate([
-			'name' => 'required|string|max:255',
-		]);
+		$data = $request->validated();
+		$category->fill($data);
 		
-		$category = new Category();
-		$category->name = $validatedData['name'];
+		if ($request->hasFile('image')) {
+			$uploadedFile = $request->file('image');
+			$extension = $uploadedFile->clientExtension();
+			$name = uniqid();
+			$category->image = $uploadedFile->storePubliclyAs(
+				'/',
+				$name . '.' . $extension,
+				'uploads'
+			);
+		}
 		$category->save();
-		
+	}
+	
+	
+	public function put(CategoryRequest $request): RedirectResponse
+	{
+		$this->saveCategoryData(new Category(), $request);
 		return redirect('/categories');
 	}
 	
-	//display Category editing  form
+	public function patch(Category $category, CategoryRequest $request): RedirectResponse
+	{
+		$this->saveCategoryData($category, $request);
+		return redirect('/categories');
+	}
+
 	public function update(Category $category): View
 	{
-		return view(
-			'category.form',
+		return view('category.form',
 			[
 				'title' => 'Regiģēt kategoriju',
 				'category' => $category
-			]
-		);
+			]);
 	}
 	
-	//Update existing category data
-	public function patch(Category $category, Request $request): RedirectResponse
-	{
-		$validatedData = $request->validate([
-			'name' => 'required|string|max:255',
-		]);
-		
-		$category->name = $validatedData['name'];
-		$category->save();
-		
-		return redirect('/categories');
-	}
 	public function delete(Category $category): RedirectResponse
 	{
-		//Šeit derētu pārbaude, kas neļauj dzēst kategoriju, ja tas piesaistīs eksistējošām grāmatām
+
 		$category->delete();
 		return redirect('/categories');
 	}
-	
-	
-	
+		
 }

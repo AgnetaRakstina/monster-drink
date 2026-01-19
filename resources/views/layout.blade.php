@@ -31,7 +31,16 @@
 						</li>
 					@if(Auth::check())
 						<li class="nav-item">
+							<a class="nav-link" href="/drinks">Monster drinks</a>
+						</li>
+						<li class="nav-item">
 							<a class="nav-link" href="/categories">Kategorijas</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/collaborations">Sadarbības</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/origins">Izcelsmes</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="/logout">Beigt darbu</a>

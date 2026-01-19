@@ -6,20 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Drink;
 
-class Category extends Model
+class Collaboration extends Model
 {
-	protected $fillable = [
+    protected $fillable = [
 		'name',
 		'image',
-		'monster_amount',
-		'average_caffeine_amount',
+		'collaboration_discontinued_in',
 		'description',
 	];
 	
-	
-    public function drinks(): HasMany
+	public function drinks(): HasMany
 	{
 		return $this->hasMany(Drink::class);
 	}
-	
 }

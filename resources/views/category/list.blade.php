@@ -11,6 +11,9 @@
 				<tr>
 					<th>ID</td>
 					<th>Nosaukums</td>
+					<th>Dzērienu skaits</th>
+					<th>Vidējais kofeīnu apjoms</th>
+					<th>Apraksts</th>
 					<th>&nbsp;</td>
 				</tr>
 			</thead>
@@ -21,11 +24,20 @@
 			
 				<td>{{ $category->id }}</td>
 				<td>{{ $category->name }}</td>
-				<td> <a href="/categories/update/{{ $category->id }}" class="btn btn-outline-primary btn-sm">Labot</a> 
-				<td> 
-					<form action="/categories/delete/{{ $category->id }}" method="post" class="deletion-form d-inline">
+				<td>{{ $category->monster_amount }}</td>
+				<td>{{ $category->average_caffeine_amount }} mg</td>
+				<td>{{ $category->description ?? '-' }}</td>
+				
+				<td> <a href="/categories/update/{{ $category->id }}"
+						class="btn btn-outline-primary btn-sm">Labot</a>  
+					<form 
+						action="/categories/delete/{{ $category->id }}" 
+						method="post" 
+						class="deletion-form d-inline">
 						@csrf
-						<button type="submit" class="btn btn-outline-danger btn-sm">Dzēst</button>
+						<button type="submit"
+							class="btn btn-outline-danger btn-sm">Dzēst
+						</button>
 					</form>
 				</td>
 			</tr>
