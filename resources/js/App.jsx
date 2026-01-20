@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import '../css/loader.css';
-//import '../css/style.css';
+import '../css/style.css';
 
-	//Galvena lietotnes komponente
+//Galvena lietotnes komponente
 export default function App() {
 	const [selectedDrinkID, setSelectedDrinkID] = useState(null)
 	
@@ -18,7 +18,7 @@ export default function App() {
 	return (
 		<>
 			<Header />
-			<main className="mb-8 px-2 md:container md:mx-auto">
+			<main className="monster-main">
 				{
 				selectedDrinkID
 				? <DrinkPage
@@ -36,9 +36,11 @@ export default function App() {
 
 function Header() {
 	return (
-		<header className="bg-green-500 mb-8 py-2 sticky top-0">
-			<div className="px-2 py-2 font-serif text-green-50 text-xl leading-6 md:container md:mx-auto">
-				Monster enerģijas dzērieni
+		<header className="monster-header">
+			<div className="header-content">
+				{/* Add your logo here */}
+				{/* <img src="/path-to-logo.png" alt="Monster Energy" className="logo" /> */}
+				<h1 className="site-title">Monster Energy</h1>
 			</div>
 		</header>
 	)
@@ -46,13 +48,14 @@ function Header() {
 
 function Footer() {
 	return (
-		<footer className="bg-neutral-300 mt-8">
-			<div className="py-8 md:container md:mx-auto px-2">
+		<footer className="monster-footer">
+			<div>
 				A. Rakstiņa, VeA, 2026
 			</div>
 		</footer>
 	)
 }
+
 // Sākumlapa - ieladē datus no API un attēlo top dzērienus
 function Homepage({ handleDrinkSelection }) {
 	const [topDrinks, setTopDrinks] = useState([]);
@@ -65,8 +68,8 @@ function Homepage({ handleDrinkSelection }) {
 		"ALL PRODUCTS",
 		"MONSTER ENERGY",
 		"MONSTER ULTRA",
-		"MONSTER COFFEE",
 		"JUICE MONSTER",
+		"JAVA MONSTER",
 		"REHAB MONSTER",
 		"FAN FAVORITES",
 	];
@@ -106,6 +109,10 @@ function Homepage({ handleDrinkSelection }) {
 
 	return (
 		<>
+			<div className="category-header">
+				<h2 className="category-title">{selectedCategory}</h2>
+			</div>
+			
 			<CategorySelector
 				categories={categories}
 				selectedCategory={selectedCategory}
@@ -154,21 +161,16 @@ function Homepage({ handleDrinkSelection }) {
 	);
 }
 
-
-
 // Top dzērienu skats, attēlo sākumlapas dzērienus
 function TopDrinkView({ drink, index, handleDrinkSelection }) {
 	return (
-		<div className="bg-neutral-100 rounded-lg mb-8 py-8 flex flex-wrap md:flex-row">
-			<div className=
-				{`order-2 px-12 md:basis-1/2
-					${ index % 2 === 1 ? "md:order-1 md:text-right" : ""}
-				`}
-			>
-				<h2 className="mb-4 text-3xl leading-8 font-light text-neutral-900">
+		<div className="top-drink-card">
+			<div className="top-drink-rank">#{index + 1}</div>
+			<div className="top-drink-content">
+				<h2 className="drink-name">
 					{drink.name}
 				</h2>
-				<p className="mb-4 text-xl leading-7 font-light text-neutral-900">
+				<p className="drink-description">
 					{ drink.description
 					? (drink.description.split(' ').slice(0, 16).join(' ')) + '...'
 					: '' }
@@ -178,27 +180,27 @@ function TopDrinkView({ drink, index, handleDrinkSelection }) {
 					handleDrinkSelection={handleDrinkSelection}
 				/>
 			</div>
-			<div className=
-				{`order-1 md:basis-1/2 ${ index % 2 === 1 ? "md:order-2" : ""}`}
-			>
+			<div>
 				<img
 					src={ drink.image }
 					alt={ drink.name }
-					className="p-1 rounded-md border border-neutral-200 w-2/4 aspect-auto mx-auto" 
+					className="drink-image" 
 				/>
 			</div>
 		</div>
 	)
 }
+
 //Poga "Rādīt vairāk"
 function SeeMoreBtn({ drinkID, handleDrinkSelection }) {
 		return (
 			<button
-				className="inline-block rounded-full py-2 px-4 bg-sky-500 hover:bg-sky-400 text-sky-50 cursor-pointer"
+				className="btn btn-see-more"
 				onClick={() => handleDrinkSelection(drinkID)}
 			>Rādīt vairāk</button>
 		)
 }
+
 // Drink lapa - strukturāla komponente, satus drink lapas daļas
 function DrinkPage({ selectedDrinkID, handleDrinkSelection, handleGoingBack }) {
 	return (
@@ -223,7 +225,6 @@ function SelectedDrinkView({ selectedDrinkID, handleGoingBack }) {
 	
 	useEffect(function () {
 		async function fetchSelectedDrink() {
-			
 			try {
 				setIsLoading(true);
 				setError(null);
@@ -250,60 +251,68 @@ function SelectedDrinkView({ selectedDrinkID, handleGoingBack }) {
 			{isLoading && <Loader />}
 			{error && <ErrorMessage msg={error} />}
 			{!isLoading && !error && <>
-			
-				<div className="rounded-lg flex flex-wrap md:flex-row">
-					<div className="order-2 md:order-1 md:pt-12 md:basis-1/2">
-						<h1 className="text-3xl leading-8 font-light text-neutral-900 mb-2">
-							{selectedDrink.name}
-						</h1>
-						<p className="text-xl leading-7 font-light text-neutral-900 mb-2">
-							Kategorija: {selectedDrink.category}
-						</p>
-					
-						{selectedDrink.collaboration && (
-							<p className="text-xl leading-7 font-light text-neutral-900 mb-2">
-								Sadarbība: {selectedDrink.collaboration}
-							</p>
-						)}
-					
-						<p className="text-xl leading-7 font-light text-neutral-900 mb-2">
-							Izcelsme: {selectedDrink.origin}
-						</p>
-					
-						<p className="text-xl leading-7 font-light text-neutral-900 mb-2">
-							Garša: {selectedDrink.flavor}
-						</p>
-					
-						<p className="text-xl leading-7 font-light text-neutral-900 mb-2">
-							Kofeīna daudzums: {selectedDrink.caffeine_amount} mg
-						</p>
-					
-						<p className="text-xl leading-7 font-light text-neutral-900 mb-4">
-							{selectedDrink.description}
-						</p>
-					
-						<dl className="mb-4 md:flex md:flex-wrap md:flex-row">
-							<dt className="font-bold md:basis-1/4">Izdošanas gads</dt>
-							<dd className="mb-2 md:basis-3/4">{selectedDrink.released_in || "Nav izdots"}</dd>
-
-							<dt className="font-bold md:basis-1/4">Pārtraukšanas gads</dt>
-							<dd className="mb-2 md:basis-3/4">{selectedDrink.discontinued_in || "Vēl tiek ražots"}</dd>
-						</dl>
-					</div>
+				<div className="mb-12">
+					<GoBackBtn handleGoingBack={handleGoingBack} />
+				</div>
 				
-					<div className="order-1 md:order-2 md:pt-12 md:px-12 md:basis-1/2">
+				<div className="drink-detail">
+					<div>
 						{selectedDrink.image && (
 							<img
 								src={selectedDrink.image}
 								alt={selectedDrink.name}
-								className="p-1 rounded-md border border-neutral-200 mx-auto"
+								className="drink-detail-image"
 							/>
 						)}
 					</div>
-				</div>
-			
-				<div className="mb-12 flex flex-wrap">
-					<GoBackBtn handleGoingBack={handleGoingBack} />
+					<div>
+						<h1 className="drink-name">
+							{selectedDrink.name}
+						</h1>
+						<ul className="drink-specs">
+							<li>
+								<span className="spec-label">Kategorija:</span>
+								{selectedDrink.category}
+							</li>
+							
+							{selectedDrink.collaboration && (
+								<li>
+									<span className="spec-label">Sadarbība:</span>
+									{selectedDrink.collaboration}
+								</li>
+							)}
+							
+							<li>
+								<span className="spec-label">Izcelsme:</span>
+								{selectedDrink.origin}
+							</li>
+							
+							<li>
+								<span className="spec-label">Garša:</span>
+								{selectedDrink.flavor}
+							</li>
+							
+							<li>
+								<span className="spec-label">Kofeīna daudzums:</span>
+								{selectedDrink.caffeine_amount} mg
+							</li>
+							
+							<li>
+								<span className="spec-label">Apraksts:</span>
+								{selectedDrink.description}
+							</li>
+							
+							<li>
+								<span className="spec-label">Izdošanas gads:</span>
+								{selectedDrink.released_in || "Nav izdots"}
+							</li>
+
+							<li>
+								<span className="spec-label">Pārtraukšanas gads:</span>
+								{selectedDrink.discontinued_in || "Vēl tiek ražots"}
+							</li>
+						</ul>
+					</div>
 				</div>
 			</>}
 		</>
@@ -313,7 +322,7 @@ function SelectedDrinkView({ selectedDrinkID, handleGoingBack }) {
 function GoBackBtn({ handleGoingBack }) {
 	return (
 		<button
-			className="inline-block rounded-full py-2 px-4 bg-neutral-500 hover:bg-neutral-400 text-neutral-50 cursor-pointer"
+			className="btn btn-secondary"
 			onClick={handleGoingBack}
 		>Uz sākumu</button>
 	)
@@ -350,18 +359,16 @@ function RelatedDrinkSection({ selectedDrinkID, handleDrinkSelection }) {
 
 	return (
 		<>
-			<div className="flex flex-wrap">
-				<h2 className="text-3xl leading-8 font-light text-neutral-900 mb-4">
-					Līdzīgi dzērieni
-				</h2>
+			<div className="section-header">
+				<div className="category-info">
+					<h3>Līdzīgi dzērieni</h3>
+				</div>
 			</div>
 			
 			{isLoading && <Loader />}
 			{error && <ErrorMessage msg={error} />}
-			{!isLoading && !error && <>
-			
-			
-				<div className="flex flex-wrap md:flex-row md:space-x-4 md:flexnowrap">
+			{!isLoading && !error && (
+				<div className="related-drinks-grid">
 					{relatedDrinks.map( drink => (
 						<RelatedDrinkView
 							drink={drink}
@@ -370,26 +377,24 @@ function RelatedDrinkSection({ selectedDrinkID, handleDrinkSelection }) {
 						/>
 					))}
 				</div>
-			</>}
+			)}
 		</>
 	)
 }
 
 function RelatedDrinkView({ drink, handleDrinkSelection }) {
 	return (
-		<div className="rounded-lg mb-4 md:basis-1/3">
+		<div
+			className="drink-card clickable"
+			onClick={() => handleDrinkSelection(drink.id)}
+		>
 			<img
 				src={ drink.image }
 				alt={ drink.name }
-				className="md:h-[400px] md:mx-auto max-md:w-2/4 max-md:mx-auto" />
-			<div className="p-4">
-				<h3 className="text-xl leading-7 font-light text-neutral-900 mb-4">
-					{ drink.name }
-				</h3>
-				<SeeMoreBtn
-					drinkID={drink.id}
-					handleDrinkSelection={handleDrinkSelection}
-				/>
+				className="drink-image" />
+			<div className="drink-info">
+				<h3 className="drink-name">{ drink.name }</h3>
+				<p className="drink-description">{drink.category}</p>
 			</div>
 		</div>
 	)
@@ -398,30 +403,27 @@ function RelatedDrinkView({ drink, handleDrinkSelection }) {
 //ielādes indikators un kļūdas
 function Loader() {
 	return (
-		<div className="my-12 px-2 md:container md:mx-auto text-center clear-both">
+		<div className="loader-container">
 			<div className="loader"></div>
 		</div>
 	)
 }
+
 function ErrorMessage({ msg }) {
 	return (
-		<div className="md:container md:mx-auto bg-red-300 my-8 p-2">
-			<p className="text-black">{ msg }</p>
+		<div className="error-message">
+			<p>{ msg }</p>
 		</div>
 	)
 }
 
 function CategorySelector({ categories, selectedCategory, onSelectCategory }) {
 	return (
-		<div className="flex gap-4 mb-8 justify-center">
+		<div className="category-nav">
 			{categories.map((cat) => (
 				<button
 					key={cat}
-					className={`px-4 py-2 rounded ${ 
-						selectedCategory === cat 
-							? "bg-green-500 text-white" 
-							: "bg-neutral-800 text-neutral-200"
-					}`}
+					className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
 					onClick={() => onSelectCategory(cat)}
 				>
 					{cat}
@@ -433,25 +435,38 @@ function CategorySelector({ categories, selectedCategory, onSelectCategory }) {
 
 function CategorySection({ category, drinks, handleDrinkSelection }) {
 	return (
-		<div className="mb-12">
-			<h2 className="text-3xl font-bold text-green-500 mb-4">{category}</h2>
-			<div className="flex gap-4 overflow-x-auto">
+		<div className="category-section">
+			<div className="section-header">
+				<div className="category-info">
+					<h3>{category}</h3>
+				</div>
+			</div>
+			<div className="drink-horizontal-scroll">
 				{drinks.map((drink) => (
-					<div key={drink.id} className="flex-shrink-0 w-48">
-						<img src={drink.image} alt={drink.name} className="rounded-lg mb-2" />
-						<h3 className="text-lg font-semibold">{drink.name}</h3>
-						<p className="text-sm text-neutral-400">{drink.category}</p>
-						<SeeMoreBtn drinkID={drink.id} handleDrinkSelection={handleDrinkSelection} />
+					<div
+						key={drink.id}
+						className="drink-card clickable"
+						onClick={() => handleDrinkSelection(drink.id)}
+					>
+						<img src={drink.image} alt={drink.name} className="drink-image" />
+						<div className="drink-info">
+							<h3 className="drink-name">{drink.name}</h3>
+							<p className="drink-description">{drink.category}</p>
+						</div>
 					</div>
 				))}
 			</div>
 		</div>
 	);
 }
+
 function TopDrinksSection({ topDrinks, handleDrinkSelection }) {
+	// Show only 7 top drinks as requested
+	const displayTopDrinks = topDrinks.slice(0, 7);
+	
 	return (
-		<div>
-			{topDrinks.map((drink, index) => (
+		<div className="top-drinks-section">
+			{displayTopDrinks.map((drink, index) => (
 				<TopDrinkView
 					key={drink.id}
 					drink={drink}

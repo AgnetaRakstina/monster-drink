@@ -36,7 +36,7 @@ class DataController extends Controller
 		$drinks = Drink::where('display', true)
 			->where('id', '<>', $drink->id)
 			->inRandomOrder()
-			->take(3)
+			->take(5)
 			->get();
 		return response()->json($drinks);
 	}
