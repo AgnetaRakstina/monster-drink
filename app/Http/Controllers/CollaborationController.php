@@ -20,7 +20,7 @@ class CollaborationController extends Controller implements HasMiddleware
 	
 	public function list(): View
 	{
-		$items = Collaboration::orderBy('name', 'asc')->get();
+		$items = Collaboration::orderBy('id', 'asc')->get();
 		
 		return view('collaboration.list',
 		[

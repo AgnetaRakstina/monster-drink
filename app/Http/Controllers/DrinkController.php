@@ -26,7 +26,7 @@ class DrinkController extends Controller implements HasMiddleware
 	
 	public function list(): View
 	{
-		$items = Drink::orderBy('name', 'asc')->get();
+		$items = Drink::orderBy('id', 'asc')->get();
 		
 		return view(
 			'drink.list',

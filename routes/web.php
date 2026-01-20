@@ -60,3 +60,4 @@ Route::post('/origins/delete/{origin}', [OriginController::class, 'delete']);
 Route::get('/data/get-top-drinks', [DataController::class, 'getTopDrinks']);
 Route::get('/data/get-drink/{drink}', [DataController::class, 'getDrink']);
 Route::get('data/get-related-drinks/{drink}', [DataController::class, 'getRelatedDrinks']);
+Route::get('data/get-all-drinks', [DataController::class, 'getAllDrinks']);

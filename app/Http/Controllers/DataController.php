@@ -40,4 +40,13 @@ class DataController extends Controller
 			->get();
 		return response()->json($drinks);
 	}
+	
+	//Return all published drinks
+	public function getAllDrinks(): JsonResponse
+	{
+		$drinks = Drink::where('display', true)->get();
+		return response()->json($drinks);
+	}
+
 }
+	

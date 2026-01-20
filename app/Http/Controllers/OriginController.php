@@ -20,7 +20,7 @@ class OriginController extends Controller implements HasMiddleware
 	
 	public function list(): View
 	{
-		$items = Origin::orderBy('name', 'asc')->get();
+		$items = Origin::orderBy('id', 'asc')->get();
 		
 		return view('origin.list',
 			[

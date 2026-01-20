@@ -1,107 +1,6 @@
 import { useEffect, useState } from "react";
 import '../css/loader.css';
-
-/*
-const topDrinks = [
-	{
-		"id": 4,
-		"category": "MONSTER COFFEE",
-		"collaboration": "",
-		"origin": "ASV",
-		"name": "Salted caramel",
-		"image": "http://monster-drink/images/696d3036d959e.png",
-		"flavor": "\"Salds un sāļš sāļš karamele\"",
-		"caffeine_amount": 200,
-		"released_in": 2016,
-		"discontinued_in": null,
-		"description": "Šajā izsmalcinātajā enerģijas dzērienā sāļā karamele satiekas ar bagātīgu kafiju un krējumu. Maigs, salds un gatavs dzeršanai ar Monster Energy piesātināto garšu un attieksmi." 
-	},
-	{
-		"id": 3,
-		"category": "JUICE MONSTER",
-		"collaboration": "",
-		"origin": "Brazīlija",
-		"name": "Juiced monster RIO PUNCH",
-		"image": "http://monster-drink/images/696d2f894233b.png",
-		"flavor": "\"Salda papaija, vaniļas saldējums, upeņu nots\"",
-		"caffeine_amount": 160,
-		"released_in": 2024,
-		"discontinued_in": null,
-		"description": "Lielisks gāzētu sulu, vitamīnu un mūsu pasaulslavenā Monster enerģijas maisījuma sajaukums. Nobaudiet eksotiskās Juice Monster Rio Punch garšas, kas iedvesmotas no Riodežaneiro karnevāla episkās enerģijas!"
-	},
-	{
-		"id": 1,
-		"category": "MONSTER ENERGY",
-		"collaboration": "",
-		"origin": "ASV",
-		"name": "Original Green \"OG\"",
-		"image": "http://monster-drink/images/696d297a37b83.webp",
-		"flavor": "\"Salds un sāļš - tas garšo kā nezvērs!\"",
-		"caffeine_amount": 160,
-		"released_in": 2002,
-		"discontinued_in": null,
-		"description": "Ieplēs bundžā planētas nejaukākā enerģijas dzēriena — Monster Energy. Tam ir spēcīgs trieciens, bet tas ir viegli dzerams ar savu viegli dzeramo garšu. Tā ir ideāla pareizo sastāvdaļu kombinācija pareizajās proporcijās, lai sniegtu lielo, čauno sajūtu, kādu spēj tikai Monster. Atbrīvo nezvēru!"
-	}
-
-]
-const selectedDrink = {
-	"id": 3,
-	"category": "JUICE MONSTER",
-	"collaboration": "",
-	"origin": "Brazīlija",
-	"name": "Juiced monster RIO PUNCH",
-	"image": "http://monster-drink/images/696d2f894233b.png",
-	"flavor": "\"Salda papaija, vaniļas saldējums, upeņu nots\"",
-	"caffeine_amount": 160,
-	"released_in": 2024,
-	"discontinued_in": null,
-	"description": "Lielisks gāzētu sulu, vitamīnu un mūsu pasaulslavenā Monster enerģijas maisījuma sajaukums. Nobaudiet eksotiskās Juice Monster Rio Punch garšas, kas iedvesmotas no Riodežaneiro karnevāla episkās enerģijas!"
-};
-
-
-const relatedDrinks =[
-	{
-	"id": 1,
-	"category": "MONSTER ENERGY",
-	"collaboration": "",
-	"origin": "ASV",
-	"name": "Original Green \"OG\"",
-	"image": "http://monster-drink/images/696d297a37b83.webp",
-	"flavor": "\"Salds un sāļš - tas garšo kā nezvērs!\"",
-	"caffeine_amount": 160,
-	"released_in": 2002,
-	"discontinued_in": null,
-	"description": "Ieplēs bundžā planētas nejaukākā enerģijas dzēriena — Monster Energy. Tam ir spēcīgs trieciens, bet tas ir viegli dzerams ar savu viegli dzeramo garšu. Tā ir ideāla pareizo sastāvdaļu kombinācija pareizajās proporcijās, lai sniegtu lielo, čauno sajūtu, kādu spēj tikai Monster. Atbrīvo nezvēru!"
-	},
-	{
-	"id": 2,
-	"category": "MONSTER ULTRA",
-	"collaboration": "",
-	"origin": "ASV",
-	"name": "Monster energy ULTRA \"White monster\"",
-	"image": "http://monster-drink/images/696d2e7aa922a.png",
-	"flavor": "\"Viegli atsvaidzinoši citrusaugļi\"",
-	"caffeine_amount": 150,
-	"released_in": 2012,
-	"discontinued_in": null,
-	"description": "Monster Energy Ultra 500 ml bundžiņā, bezcukura enerģijas dzēriens ar enerģijas maisījumu un 150 mg kofeīna. Monster Energy Ultra ir viegla, atsvaidzinoša citrusaugļu garša. Monster Energy Ultra negaršo kā tradicionālie enerģijas dzērieni, taču tajā joprojām ir pilnvērtīgs Monster enerģijas maisījums. Pasniedziet aukstu, lai iegūtu maksimālu atspirdzinājumu."
-  },
-  {
-	"id": 4,
-    "category": "MONSTER COFFEE",
-    "collaboration": "",
-    "origin": "ASV",
-    "name": "Salted caramel",
-    "image": "http://monster-drink/images/696d3036d959e.png",
-    "flavor": "\"Salds un sāļš sāļš karamele\"",
-    "caffeine_amount": 200,
-    "released_in": 2016,
-    "discontinued_in": null,
-    "description": "Šajā izsmalcinātajā enerģijas dzērienā sāļā karamele satiekas ar bagātīgu kafiju un krējumu. Maigs, salds un gatavs dzeršanai ar Monster Energy piesātināto garšu un attieksmi."
-  }
-]
-*/
-
+//import '../css/style.css';
 
 	//Galvena lietotnes komponente
 export default function App() {
@@ -157,49 +56,106 @@ function Footer() {
 // Sākumlapa - ieladē datus no API un attēlo top dzērienus
 function Homepage({ handleDrinkSelection }) {
 	const [topDrinks, setTopDrinks] = useState([]);
+	const [allDrinks, setAllDrinks] = useState([]);
+	const [selectedCategory, setSelectedCategory] = useState("ALL PRODUCTS");
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
 	
+	const categories = [
+		"ALL PRODUCTS",
+		"MONSTER ENERGY",
+		"MONSTER ULTRA",
+		"MONSTER COFFEE",
+		"JUICE MONSTER",
+		"REHAB MONSTER",
+		"FAN FAVORITES",
+	];
+	
 	useEffect(function () {
-		async function fetchTopDrinks() {
+		async function fetchDrinks() {
 			try {
 				setIsLoading(true);
 				setError(null);
-				const response = await fetch('http://monster-drink/data/get-top-drinks');
+				const responseTop = await fetch("http://monster-drink/data/get-top-drinks");
+				const responseAll = await fetch("http://monster-drink/data/get-all-drinks");
 				
-				if (!response.ok) {
+				if (!responseTop.ok || !responseAll.ok) {
 					throw new Error("Datu ielādes kļūda. Lūdzu, pārlādējiet lapu!");
 				}
 				
-				const data = await response.json();
-				console.log('top drinks fetched', data);
-				setTopDrinks(data);
+				const top = await responseTop.json();
+				const all = await responseAll.json();
+				
+				console.log('top drinks fetched', top);
+				setTopDrinks(top);
+				setAllDrinks(all);
 			} catch (error) {
 				setError(error.message);
 			} finally {
 				setIsLoading(false);
 			}
 		}
-		fetchTopDrinks();
+		fetchDrinks();
 	}, []);
 	
+	// filter drinks by category
+	const filteredDrinks = 
+		selectedCategory === "ALL PRODUCTS"
+			? allDrinks
+			: allDrinks.filter((drink) => drink.category.toLowerCase() === selectedCategory.toLowerCase());
+
 	return (
 		<>
+			<CategorySelector
+				categories={categories}
+				selectedCategory={selectedCategory}
+				onSelectCategory={setSelectedCategory}
+			/>
+		
 			{isLoading && <Loader />}
 			{error && <ErrorMessage msg={error} />}
+			
 			{!isLoading && !error && (
-			topDrinks.map((drink, index) => (
-					<TopDrinkView 
-						drink = {drink}
-						key={drink.id}
-						index = {index}
-						handleDrinkSelection={handleDrinkSelection}
-					/>
-				))
-			)}	
+				<div>
+					{selectedCategory === "ALL PRODUCTS"
+						? categories
+							.filter((cat) => cat !== "ALL PRODUCTS" && cat !== "FAN FAVORITES")
+							.map((cat) => {
+								const drinksInCat = allDrinks.filter(
+									(d) => d.category.toLowerCase() === cat.toLowerCase()
+								);
+								return (
+									<CategorySection
+										key={cat}
+										category={cat}
+										drinks={drinksInCat}
+										handleDrinkSelection={handleDrinkSelection}
+									/>
+								);
+							})
+						: selectedCategory === "FAN FAVORITES"
+						? ( 
+							<TopDrinksSection 
+								topDrinks={topDrinks} 
+								handleDrinkSelection={handleDrinkSelection}
+							/>
+						)
+						: (
+							<CategorySection
+								category={selectedCategory}
+								drinks={filteredDrinks}
+								handleDrinkSelection={handleDrinkSelection}
+							/>
+						)
+					}
+				</div>
+			)}
 		</>
-	)
+	);
 }
+
+
+
 // Top dzērienu skats, attēlo sākumlapas dzērienus
 function TopDrinkView({ drink, index, handleDrinkSelection }) {
 	return (
@@ -212,7 +168,7 @@ function TopDrinkView({ drink, index, handleDrinkSelection }) {
 				<h2 className="mb-4 text-3xl leading-8 font-light text-neutral-900">
 					{drink.name}
 				</h2>
-				<p className="mb-4 text-xl leading-7 font-light text-neutral-900 mb-4">
+				<p className="mb-4 text-xl leading-7 font-light text-neutral-900">
 					{ drink.description
 					? (drink.description.split(' ').slice(0, 16).join(' ')) + '...'
 					: '' }
@@ -427,7 +383,7 @@ function RelatedDrinkView({ drink, handleDrinkSelection }) {
 				alt={ drink.name }
 				className="md:h-[400px] md:mx-auto max-md:w-2/4 max-md:mx-auto" />
 			<div className="p-4">
-				<h3 className="text-xl leading-7 font-light text-neutral-900 mb4">
+				<h3 className="text-xl leading-7 font-light text-neutral-900 mb-4">
 					{ drink.name }
 				</h3>
 				<SeeMoreBtn
@@ -453,4 +409,56 @@ function ErrorMessage({ msg }) {
 			<p className="text-black">{ msg }</p>
 		</div>
 	)
+}
+
+function CategorySelector({ categories, selectedCategory, onSelectCategory }) {
+	return (
+		<div className="flex gap-4 mb-8 justify-center">
+			{categories.map((cat) => (
+				<button
+					key={cat}
+					className={`px-4 py-2 rounded ${ 
+						selectedCategory === cat 
+							? "bg-green-500 text-white" 
+							: "bg-neutral-800 text-neutral-200"
+					}`}
+					onClick={() => onSelectCategory(cat)}
+				>
+					{cat}
+				</button>
+			))}
+		</div>
+	)
+}
+
+function CategorySection({ category, drinks, handleDrinkSelection }) {
+	return (
+		<div className="mb-12">
+			<h2 className="text-3xl font-bold text-green-500 mb-4">{category}</h2>
+			<div className="flex gap-4 overflow-x-auto">
+				{drinks.map((drink) => (
+					<div key={drink.id} className="flex-shrink-0 w-48">
+						<img src={drink.image} alt={drink.name} className="rounded-lg mb-2" />
+						<h3 className="text-lg font-semibold">{drink.name}</h3>
+						<p className="text-sm text-neutral-400">{drink.category}</p>
+						<SeeMoreBtn drinkID={drink.id} handleDrinkSelection={handleDrinkSelection} />
+					</div>
+				))}
+			</div>
+		</div>
+	);
+}
+function TopDrinksSection({ topDrinks, handleDrinkSelection }) {
+	return (
+		<div>
+			{topDrinks.map((drink, index) => (
+				<TopDrinkView
+					key={drink.id}
+					drink={drink}
+					index={index}
+					handleDrinkSelection={handleDrinkSelection}
+				/>
+			))}
+		</div>
+	);
 }

@@ -21,7 +21,7 @@ class CategoryController extends Controller implements HasMiddleware
 	
 	public function list(): View
 	{
-		$items = Category::orderBy('name', 'asc')->get();
+		$items = Category::orderBy('id', 'asc')->get();
 		
 		return view('category.list',
 			[

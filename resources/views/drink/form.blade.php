@@ -154,7 +154,7 @@
 				name="display"
 				value="1"
 				class="form-check-input @error('display') is-invalid @enderror"
-				@if (old('display', $book->display)) checked @endif
+				@if (old('display', $drink->display)) checked @endif
 			>
 			<label class="form-check-label" for="book-display">
 				Publicēt ierakstu
